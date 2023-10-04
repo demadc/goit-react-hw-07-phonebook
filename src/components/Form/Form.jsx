@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid/non-secure';
 import { Label, Button } from './Form.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contacts/contactSlice';
+
 import { contactsData } from 'redux/selector';
 
 
@@ -25,7 +25,7 @@ export const ContactForm = () => {
       alert(`${value.name} is already in contacts.`);
       
     } else {
-      dispatch(addContact({...value, id: nanoid()})); 
+      dispatch(handleAddContact({...value, id: nanoid()})); 
 
       resetForm(); 
     }
