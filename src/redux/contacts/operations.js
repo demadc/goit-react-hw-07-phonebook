@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
-import * as api from '../apiContacts';
+import * as api from '../apiContacts/apiContacts';
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll', 
@@ -18,19 +18,6 @@ export const fetchContacts = createAsyncThunk(
   }
 );
 
-
-const isDublicate = (contacts, { name, phone }) => {
-  const normalizedName = name.toLowerCase().trim();
-  const normalizedNumber = phone.trim();
-
-  const dublicate = contacts.some(
-    contact =>
-      contact.name.toLowerCase().trim() === normalizedName ||
-      contact.phone.trim() === normalizedNumber
-  );
-  return dublicate;
-};
-
 export const addContact = createAsyncThunk(
   'contacts/addContact',
   async (data, { rejectWithValue }) => {
@@ -45,18 +32,6 @@ export const addContact = createAsyncThunk(
     }
   },
   
-  {
-    condition: (data, { getState }) => {
-      const {
-        contacts: { items },
-      } = getState();
-
-      if (isDublicate(items, data)) {
-        toast.error(`This contact is already in contacts`);
-        return false; 
-      }
-    },
-  }
 );
 
 export const deleteContact = createAsyncThunk(

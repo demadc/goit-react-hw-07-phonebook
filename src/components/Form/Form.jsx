@@ -25,7 +25,7 @@ export const ContactForm = () => {
       alert(`${value.name} is already in contacts.`);
       
     } else {
-      dispatch(handleAddContact({...value, id: nanoid()})); 
+      dispatch(handleAddContact({...value})); 
 
       resetForm(); 
     }

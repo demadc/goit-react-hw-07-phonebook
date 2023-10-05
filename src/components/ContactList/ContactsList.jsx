@@ -4,7 +4,7 @@ import { List, ListItem, ItemText, Btn } from './ContactsList.styled';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { toast } from 'react-toastify';
-import { fetchContacts } from 'redux/contacts/operations';
+import { fetchContacts, deleteContact } from 'redux/contacts/operations';
 import {
   selectIsLoading,
   selectError,
@@ -18,33 +18,27 @@ export const ContactsList = () => {
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
   const filter = useSelector(selectFilter);
-
+  const result = useSelector(selectFilteredContacts);
 
   const handleDeleteContact = id => {
-    dispatch(handleDeleteContact(id));
+    dispatch(deleteContact(id));
   };
 
     useEffect(() => {
       dispatch(fetchContacts());
     }, [dispatch]);
   
-    const result = useSelector(selectFilteredContacts);
-  
-    const getFilteredContacts = data => {
-      if (filter.toLowerCase() && !data.length) {
+      if (filter.toLowerCase() && !result.length) {
         toast.warn(`No contacts matching your request`);
-      }
-      return data;
     };
 
-  const filteredContacts = getFilteredContacts(result);
 
   return (
 
     <>
-      {!error && !isLoading && filteredContacts?.length > 0 && (
+      {!error && !isLoading && result?.length > 0 && (
      <List>
-      {filteredContacts.map(({ id, name, number }) => (
+      {result.map(({ id, name, number }) => (
         <ListItem key={id}>
           <ItemText>
             {name}: {number}
